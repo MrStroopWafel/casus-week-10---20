@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InitScherm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitScherm.Designer.cs">
+      <DependentUpon>InitScherm.cs</DependentUpon>
+    </Compile>
     <Compile Include="StartPagina.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +60,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="InitScherm.resx">
+      <DependentUpon>InitScherm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
