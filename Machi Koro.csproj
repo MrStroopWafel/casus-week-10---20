@@ -52,6 +52,14 @@
     <Compile Include="InitScherm.Designer.cs">
       <DependentUpon>InitScherm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Kaart.cs" />
+    <Compile Include="KoopScherm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KoopScherm.Designer.cs">
+      <DependentUpon>KoopScherm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Speler.cs" />
     <Compile Include="StartPagina.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +68,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TafelScherm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TafelScherm.Designer.cs">
+      <DependentUpon>TafelScherm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="InitScherm.resx">
       <DependentUpon>InitScherm.cs</DependentUpon>
     </EmbeddedResource>
