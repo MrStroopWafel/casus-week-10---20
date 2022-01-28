@@ -16,7 +16,6 @@ namespace Machi_Koro
         {
             Geld = 3;
 
-
         }
     }
 }

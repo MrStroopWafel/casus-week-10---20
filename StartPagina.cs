@@ -12,9 +12,12 @@ namespace Machi_Koro
 {
     public partial class StartPagina : Form
     {
+        InitKaart initKaart = new InitKaart();
         public StartPagina()
         {
             InitializeComponent();
+            label1.Text = initKaart.KaartenLijst[0].KaartUitdelen + initKaart.KaartenLijst[0].Naam;
+            label2.Text = initKaart.KaartenLijst[15].Kleur + initKaart.KaartenLijst[15].Naam; 
         }
     }
 }

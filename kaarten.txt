@@ -1,15 +1,16 @@
-blauw, 1, je krijgt 1 muntje als iemand het getal 1 gooit, Graanveld, 1
-blauw,99,jaja,je moeder,6 
-blauw,99,jaja,je moeder,6 
-blauw,99,jaja,je moeder,6 
-blauw,99,jaja,je moeder,6 
-groen,99,jaja,je moeder,6 
-groen,99,jaja,je moeder,6 
-groen,99,jaja,je moeder,6 
-groen,99,jaja,je moeder,6 
-groen,99,jaja,je moeder,6 
-rood,99,jaja,je moeder,6 
-rood,99,jaja,je moeder,6 
-paars,99,jaja,je moeder,6 
-paars,99,jaja,je moeder,6 
-paars,99,jaja,je moeder,6 
+blauw,1,je krijgt 1 muntje als iemand het getal 1 gooit,Graanveld,1,1
+blauw,99,jaja,je moeder,6,1 
+blauw,99,jaja,je moeder,6,1 
+blauw,99,jaja,je moeder,6,1
+blauw,99,jaja,je moeder,6,1 
+groen,99,jaja,je moeder,6,1 
+groen,99,jaja,je moeder,6,1 
+groen,99,jaja,je moeder,6,1 
+groen,99,jaja,je moeder,6,1 
+groen,99,jaja,je moeder,6,1
+rood,99,jaja,je moeder,6,1 
+rood,99,jaja,je moeder,6,1 
+paars,99,jaja,je moeder,6,1 
+paars,99,jaja,je moeder,6,1 
+paars,99,jaja,je moeder,6,1 
+grijs,4,je mag 2 dobbelstenen gooien,treinstation,0,0 
