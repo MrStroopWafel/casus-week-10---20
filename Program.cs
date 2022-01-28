@@ -19,7 +19,7 @@ namespace Machi_Koro
             Application.Run(new StartPagina());
             InitScherm initscherm = new InitScherm();
             Application.Run(initscherm);
-            //Application.Run(new BordScherm(StartPagina.settings, InitScherm));
+            //Application.Run(new BordScherm(StartPagina.settings, InitScherm);
         }
     }
 }
