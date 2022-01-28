@@ -20,7 +20,8 @@ namespace Machi_Koro
 
         private void settingsButton_Click(object sender, EventArgs e)
         {
-            settings = new Settings();
+            settings = new Settings(this);
+            this.Hide();
             settings.ShowDialog();
         }
 

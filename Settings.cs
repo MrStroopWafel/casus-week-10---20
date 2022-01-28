@@ -15,9 +15,11 @@ namespace Machi_Koro
         bool wachttijd;
         int wachttijd_lengte;
         int AI_moeilijkheid;
-        public Settings()
+        private StartPagina StartPagina;
+        public Settings(StartPagina _StartPagina)
         {
             InitializeComponent();
+            StartPagina = _StartPagina;
         }
 
         private void Cb_wachttijd_CheckStateChanged(object sender, EventArgs e)
@@ -48,6 +50,7 @@ namespace Machi_Koro
             }
             AI_moeilijkheid = Int32.Parse(Dd_moeilijkheid.Text);
             testlabel.Text = Dd_moeilijkheid.Text;
+            StartPagina.Show();
             this.Close();
         }
     }
