@@ -79,11 +79,9 @@
             this.Text = "Machi Koro";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
-
         private System.Windows.Forms.Button startGameButton;
         private System.Windows.Forms.Button settingsButton;
         private System.Windows.Forms.Label hoofdschermLabel;

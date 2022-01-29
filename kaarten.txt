@@ -1,0 +1,16 @@
+blauw,1,je ontvangt 1 munt van de bank ongeacht wiens beurt het is,Graanveld,1,1
+blauw,1,je ontvangt 1 munt van de bank ongeacht wiens beurt het is,Veehouderij,2,1 
+blauw,3,je ontvangt 3 munten van de bank ongeacht wiens beurt het is,Bos,5,1
+blauw,6,je ontvangt 5 munten van de bank ongeacht wiens beurt het is,Mijn,9,5
+blauw,3,je ontvangt 3 munten van de bank ongeacht wiens beurt het is,Appelboomgaard,10,3 
+groen,1,je ontvangt 1 munt van de bank als het jouw beurt is,Bakkerij,2-3,1 
+groen,2,je ontvangt 3 munt van de bank als het jouw beurt is,Supermarkt,4,3 
+groen,5,je ontvangt 3 munt van de bank als het jouw beurt is,Kaasfabriek,7,3 
+groen,3,je ontvangt 3 munt van de bank als het jouw beurt is,Meubelfabriek,8,3 
+groen,2,je ontvangt 2 munt van de bank als het jouw beurt is,Groente- en fruitmarkt,11-12,2
+rood,2,je ontvangt 2 munten van ieder speler die dit getal gooit,Café,3,1 
+rood,3,je ontvangt 2 munten van ieder speler die dit getal gooit,Restaurant,9-10,2 
+grijs,4,je mag 2 dobbelstenen gooien,treinstation,99,0 
+grijs,10,verhoogt het aantal munten dat je voor ... en ... kaarten krijgt met 1,Winkelcentrum,99,0 
+grijs,16,als je dubbel gooit, ben je direct nog een keer aan de beurt,Pretpark,99,0 
+grijs,22,je mag je dobbelstenen eenmaal per beurt opnieuw gooien,Radiostation,99,0 
