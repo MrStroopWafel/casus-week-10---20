@@ -18,6 +18,7 @@ namespace Machi_Koro
         private List<PictureBox> PicureBoxsBoven = new List<PictureBox>();
         private List<PictureBox> PicureBoxsRechts = new List<PictureBox>();
         private List<Speler> spelerLijst = new List<Speler>();
+        private List<Kaart> kaartenLijst = new List<Kaart>();
         private bool heeftGedobbeld;
         private bool wachttijd;
         private int maxWachttijd;
@@ -37,21 +38,81 @@ namespace Machi_Koro
             {
                 wachttijd = true;
                 maxWachttijd = _Settings.wachttijd_lengte;
-            } else
+            }
+            else
             {
                 wachttijd = false;
             }
-            //aanmaken van de speler en tafel
+            //aanmaken van de speler
             MaakSpelersAan(_InitScherm.AantalSpelers);
+            kaartenLijst = new InitKaart().KaartenLijst;
+
+            foreach (Speler speler in spelerLijst)
+            {
+                speler.Gebouwen.Add(HaalKaartOp("Graanveld"));
+                speler.Gebouwen.Add(HaalKaartOp("Bakker"));
+            }
+
             MaakTafel(spelerLijst.Count);
+            spelendeSpeler = spelerLijst[0];
 
 
+            LaadAlleKaarten();
 
+        }
 
+        private void LaadAlleKaarten()
+        {
+            switch (spelerLijst.Count)
+            {
+                case 2:
+                    lb_OnderGeld.Text = spelerLijst[0].Geld.ToString();
+                    lb_BovenGeld.Text = spelerLijst[1].Geld.ToString();
+                    LaadKaarten();
+                    break;
+                case 3:
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void LaadKaarten()
+        {
+            for (int i = 0; i < spelerLijst.Count; i++)
+            {
+                foreach (Kaart kaart in spelerLijst[i].Gebouwen)
+                {
+                    if (pb_BovenSpeler1.ImageLocation != null)
+                    {
+                       
+                    }
+                }
+            }
+        }
+        private void LaadKaartenLinks(int _Positie, Speler _Speler)
+        {
 
+        }
+        private void LaadKaartenBoven(int _Positie, Speler _Speler)
+        {
 
-            
+        }
+        private void LaadKaartenRechts(int _Positie, Speler _Speler)
+        {
 
+        }
+
+        private Kaart HaalKaartOp(string _KaartNaam)
+        {
+            List<int> templist = new List<int>();
+            foreach (Kaart kaart in kaartenLijst)
+            {
+                if (kaart.Naam == _KaartNaam)
+                {
+                    return kaart;
+                }
+            }
+            return new Kaart("niks", 0, " ", "Failcard", 0, templist);
         }
 
         private void MaakTafel(int _SpelerAantal)
@@ -71,6 +132,7 @@ namespace Machi_Koro
 
         private void TweeSpelerScherm()
         {
+            lb_BovenSpeler.Text = "Speler 2";
             foreach (PictureBox pb in PicureBoxsLinks)
             {
                 pb.Hide();
@@ -86,6 +148,7 @@ namespace Machi_Koro
         }
         private void DrieSpelerScherm()
         {
+            lb_RechtsSpeler.Text = "Speler 3";
             foreach (PictureBox pb in PicureBoxsBoven)
             {
                 pb.Hide();

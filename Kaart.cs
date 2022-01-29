@@ -11,6 +11,8 @@ namespace Machi_Koro
         public string Kleur, Tekst, Naam;
         public int Prijs, BetalingsWaarde;
         public List<int> Waarde = new List<int>();
+        public string filePath = @"../../MK_kaarten/images/";
+        public string fileType = @".jpg";
         //public picture;
 
         public Kaart(string _Kleur, int _Prijs, string _Tekst,string _Naam, int _BetalingsWaarde, List<int> _Waarde)
