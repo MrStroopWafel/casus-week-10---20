@@ -44,6 +44,14 @@ namespace Machi_Koro
 
                 Kaart newKaart = new Kaart(entries[0], Int32.Parse(entries[1]), entries[2], entries[3], Int32.Parse(entries[4]), TempList);
                 KaartenLijst.Add(newKaart);
+                if (Int32.Parse(entries[4]) < 89)
+	            {
+                    KaartenLijst.Add(newKaart);
+	            }
+                else
+            	{
+                    BezienswaardighedenLijst.Add(newKaart);
+            	}
             }
         }
     }

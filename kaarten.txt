@@ -13,4 +13,4 @@ rood,99,jaja,je moeder,6,1
 paars,99,jaja,je moeder,6,1 
 paars,99,jaja,je moeder,6,1 
 paars,99,jaja,je moeder,6,1 
-grijs,4,je mag 2 dobbelstenen gooien,treinstation,0,0 
+grijs,4,je mag 2 dobbelstenen gooien,treinstation,99,0 
