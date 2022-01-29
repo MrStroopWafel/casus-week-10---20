@@ -225,6 +225,7 @@
             this.pb_treinstation1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb_treinstation1.TabIndex = 27;
             this.pb_treinstation1.TabStop = false;
+            this.pb_treinstation1.Click += new System.EventHandler(this.pb_treinstation1_Click);
             // 
             // pb_pretpark1
             // 

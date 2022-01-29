@@ -13,18 +13,20 @@ namespace Machi_Koro
 {
     public partial class TafelScherm : Form
     {
-        private List<PictureBox> PicureBoxsOnder = new List<PictureBox>();
-        private List<PictureBox> PicureBoxsLinks = new List<PictureBox>();
-        private List<PictureBox> PicureBoxsBoven = new List<PictureBox>();
-        private List<PictureBox> PicureBoxsRechts = new List<PictureBox>();
+        private List<PictureBox> PicureBoxsOnderKaarten = new List<PictureBox>();
+        private List<PictureBox> PicureBoxsLinksKaarten = new List<PictureBox>();
+        private List<PictureBox> PicureBoxsBovenKaarten = new List<PictureBox>();
+        private List<PictureBox> PicureBoxsRechtsKaarten = new List<PictureBox>();
+        private List<PictureBox> PicureBoxsOnderBezienswaardigheden = new List<PictureBox>();
+        private List<PictureBox> PicureBoxsLinksBezienswaardigheden = new List<PictureBox>();
+        private List<PictureBox> PicureBoxsBovenBezienswaardigheden = new List<PictureBox>();
+        private List<PictureBox> PicureBoxsRechtsBezienswaardigheden = new List<PictureBox>();
         private List<Speler> spelerLijst = new List<Speler>();
         private List<Kaart> kaartenLijst = new List<Kaart>();
         private bool heeftGedobbeld;
         private bool wachttijd;
-        private int maxWachttijd;
+        private int maxWachttijd, rndNummer;
         private Speler spelendeSpeler;
-
-
 
 
         public TafelScherm(Settings _Settings, InitScherm _InitScherm)
@@ -32,7 +34,11 @@ namespace Machi_Koro
             InitializeComponent();
             //aanmaken van picure box lijsten en het roteren van de pb
             LijstMakenPicureBoxes();
-            RotateCardsHorizontaal(PicureBoxsLinks, PicureBoxsRechts);
+
+
+            HideAllPictureboxes();
+            MaakTafel(_InitScherm.AantalSpelers);
+
             //opzetten van de wachttijd
             if (_Settings.wachttijd)
             {
@@ -50,15 +56,12 @@ namespace Machi_Koro
             foreach (Speler speler in spelerLijst)
             {
                 speler.Gebouwen.Add(HaalKaartOp("Graanveld"));
-                speler.Gebouwen.Add(HaalKaartOp("Bakker"));
+                speler.Gebouwen.Add(HaalKaartOp("Bakkerij"));
             }
 
-            MaakTafel(spelerLijst.Count);
             spelendeSpeler = spelerLijst[0];
-
-
             LaadAlleKaarten();
-
+            RotateCardsHorizontaal(PicureBoxsLinksKaarten, PicureBoxsRechtsKaarten, PicureBoxsLinksBezienswaardigheden, PicureBoxsRechtsBezienswaardigheden);
         }
 
         private void LaadAlleKaarten()
@@ -68,38 +71,80 @@ namespace Machi_Koro
                 case 2:
                     lb_OnderGeld.Text = spelerLijst[0].Geld.ToString();
                     lb_BovenGeld.Text = spelerLijst[1].Geld.ToString();
-                    LaadKaarten();
+                    LaadKaartenOnder();
+                    LaadKaartenBoven();
                     break;
                 case 3:
+                    lb_OnderGeld.Text = spelerLijst[0].Geld.ToString();
+                    lb_LinksGeld.Text = spelerLijst[1].Geld.ToString();
+                    lb_RechtsGeld.Text = spelerLijst[2].Geld.ToString();
+                    LaadKaartenOnder();
+                    LaadKaartenLinks();
+                    LaadKaartenRechts();
                     break;
                 default:
+                    LaadAlleSpelerKaarten();
                     break;
             }
         }
-        private void LaadKaarten()
+        private void LaadAlleSpelerKaarten()
+        {
+            LaadKaartenOnder();
+            LaadKaartenLinks();
+            LaadKaartenBoven();
+            LaadKaartenRechts();
+        }
+        private void LaadKaartenOnder()
         {
             for (int i = 0; i < spelerLijst.Count; i++)
             {
-                foreach (Kaart kaart in spelerLijst[i].Gebouwen)
+                for (int x = 0; x < spelerLijst[i].Gebouwen.Count; x++)
                 {
-                    if (pb_BovenSpeler1.ImageLocation != null)
-                    {
-                       
-                    }
+                    string bestand = spelerLijst[i].Gebouwen[x].Naam;
+                    string filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                    PicureBoxsOnderKaarten[x].Image = Image.FromFile(filePath);
+                    PicureBoxsOnderKaarten[x].Show();
                 }
             }
         }
-        private void LaadKaartenLinks(int _Positie, Speler _Speler)
+        private void LaadKaartenLinks()
         {
-
+            for (int i = 0; i < spelerLijst.Count; i++)
+            {
+                for (int x = 0; x < spelerLijst[i].Gebouwen.Count; x++)
+                {
+                    string bestand = spelerLijst[i].Gebouwen[x].Naam;
+                    string filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                    PicureBoxsLinksKaarten[x].Image = Image.FromFile(filePath);
+                    PicureBoxsLinksKaarten[x].Show();
+                }
+            }
         }
-        private void LaadKaartenBoven(int _Positie, Speler _Speler)
+        private void LaadKaartenBoven()
         {
-
+            for (int i = 0; i < spelerLijst.Count; i++)
+            {
+                for (int x = 0; x < spelerLijst[i].Gebouwen.Count; x++)
+                {
+                    string bestand = spelerLijst[i].Gebouwen[x].Naam;
+                    string filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                    PicureBoxsBovenKaarten[x].Image = Image.FromFile(filePath);
+                    PicureBoxsBovenKaarten[x].Show();
+                }
+            }
         }
-        private void LaadKaartenRechts(int _Positie, Speler _Speler)
+        private void LaadKaartenRechts()
         {
-
+            for (int i = 0; i < spelerLijst.Count; i++)
+            {
+                for (int x = 0; x < spelerLijst[i].Gebouwen.Count; x++)
+                {
+                    string bestand = spelerLijst[i].Gebouwen[x].Naam;
+                    string filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                    PicureBoxsRechtsKaarten[x].Image = Image.FromFile(filePath);
+                    PicureBoxsRechtsKaarten[x].Show();
+                }
+            }
         }
 
         private Kaart HaalKaartOp(string _KaartNaam)
@@ -112,7 +157,7 @@ namespace Machi_Koro
                     return kaart;
                 }
             }
-            return new Kaart("niks", 0, " ", "Failcard", 0, templist);
+            return new Kaart("niks", 0, " ", "Failcard", 0, 0, templist);
         }
 
         private void MaakTafel(int _SpelerAantal)
@@ -121,26 +166,46 @@ namespace Machi_Koro
             {
                 case 2:
                     TweeSpelerScherm();
+                    HideBezienswaardighedenZijkant();
                     break;
                 case 3:
                     DrieSpelerScherm();
+                    HideBezienswaardighedenBoven();
                     break;
                 default:
                     break;
+            }
+        }
+        private void HideBezienswaardighedenZijkant()
+        {
+            for (int i = 0; i < PicureBoxsLinksBezienswaardigheden.Count; i++)
+            {
+                PicureBoxsLinksBezienswaardigheden[i].Hide();
+                PicureBoxsRechtsBezienswaardigheden[i].Hide();
+            }
+        }
+        private void HideBezienswaardighedenBoven()
+        {
+            for (int i = 0; i < PicureBoxsLinksBezienswaardigheden.Count; i++)
+            {
+                PicureBoxsBovenBezienswaardigheden[i].Hide();
+            }
+        }
+        private void HideAllPictureboxes()
+        {
+            for (int i = 0; i < PicureBoxsOnderKaarten.Count; i++)
+            {
+                PicureBoxsOnderKaarten[i].Hide();
+                PicureBoxsLinksKaarten[i].Hide();
+                PicureBoxsBovenKaarten[i].Hide();
+                PicureBoxsRechtsKaarten[i].Hide();
             }
         }
 
         private void TweeSpelerScherm()
         {
             lb_BovenSpeler.Text = "Speler 2";
-            foreach (PictureBox pb in PicureBoxsLinks)
-            {
-                pb.Hide();
-            }
-            foreach (PictureBox pb in PicureBoxsRechts)
-            {
-                pb.Hide();
-            }
+
             lb_LinksSpeler.Hide();
             lb_LinksGeld.Hide();
             lb_RechtsSpeler.Hide();
@@ -149,10 +214,7 @@ namespace Machi_Koro
         private void DrieSpelerScherm()
         {
             lb_RechtsSpeler.Text = "Speler 3";
-            foreach (PictureBox pb in PicureBoxsBoven)
-            {
-                pb.Hide();
-            }
+
             lb_BovenSpeler.Hide();
             lb_BovenGeld.Hide();
         }
@@ -168,31 +230,31 @@ namespace Machi_Koro
                 spelerLijst.Add(new Speler());
             }
         }
-        /*
-        private void BezienswaardigheidKopen(object sender, EventArgs e)
-        {
-            if (spelendeSpeler.Geld == Kaart.Prijs)
-            {
 
+        private void pb_treinstation1_Click(object sender, EventArgs e)
+        {
+            if (spelendeSpeler.Geld >= kaartenLijst[14].Prijs)
+            {
+                spelendeSpeler.Bezienswaardigheden.Add(HaalKaartOp("Treinstation"));
             }
         }
-        
-        public checkGeld()
+
+        public void checkGeld()
         {
 
-            foreach (card in player.cardlist)
+            foreach (Kaart kaart in spelendeSpeler.Gebouwen)
             {
                 //SPELER CHECK HIERBOVEN
-                switch (card.kleur)
+                switch (kaart.Kleur)
                 {
-                    case "Groen":
-                        CheckGroen(card, player);
+                    case "groen":
+                        CheckGroen(kaart, spelendeSpeler);
                         break;
-                    case "Blauw":
-                        CheckBlauw(card, player);
+                    case "blauw":
+                        CheckBlauw(kaart, spelendeSpeler);
                         break;
-                    case "Paars"
-                        CheckPaars(card, player);
+                    case "paars":
+                        CheckPaars(kaart, spelendeSpeler);
                         break;
                     default:
                         break;
@@ -200,65 +262,167 @@ namespace Machi_Koro
 
                 }
             }
-            foreach (player in notPlayerplayerlist)
+            foreach (Speler speler in spelerLijst)
             {
-                foreach (card in player.cardlist)
+                foreach (Kaart kaart in speler.Gebouwen)
                 {
-                    //SPELER CHECK HIERBOVEN
-                    switch (card.kleur)
+                    if (speler != spelendeSpeler)
                     {
-                        case "Rood":
-                            CheckGroen(card, player);
-                            break;
-                        case "Blauw":
-                            CheckBlauw(card, player);
-                            break;
-                        default:
-                            break;
+                        //SPELER CHECK HIERBOVEN
+                        switch (kaart.Kleur)
+                        {
+                            case "rood":
+                                CheckGroen(kaart, speler);
+                                break;
+                            case "blauw":
+                                CheckBlauw(kaart, speler);
+                                break;
+                            default:
+                                break;
 
-
+                        }
                     }
                 }
             }
-
         }
-        private void CheckGroen(Kaart _Card, Speler _Speler)
+
+        private void CheckGroen(Kaart _Kaart, Speler _Speler)
         {
-            foreach (waarde in _Card.Waarde)
+            foreach (int waarde in _Kaart.Waarde)
             {
                 if (waarde == rndNummer)
                 {
-
-                    _Speler.Geld.Add(_Card.BetalingsWaarde);
-                    break;
-                }
-            }
-        }
-        private void CheckBlauw(Kaart _Card, Speler _Speler) 
-        {
-            foreach (waarde in _Card.Waarde)
-            {
-                if (waarde == rndNummer)
-                {
-
-                    _Speler.Geld.Add(_Card.BetalingsWaarde);
-                    break;
-                }
-            }
-        }
-        private void CheckRood(Kaart _Card, Speler _Speler) 
-        {
-            foreach (waarde in _Card.Waarde) 
-            {
-                if (waarde == rndNummer) 
-                {
-                    if (_Speler.Geld > 1) 
+                    switch (_Kaart.Naam)
                     {
-                        _Speler.Geld.Remove(_Card.BetalingsWaarde); <---speler aan de beurt. spelerAanDeBeurt.Geld.Remove???
-                        _Speler.Geld.Add(_Card.Betalingswaarde); <---speler die rode kaart heeft
-            
-        private void CheckPaars()
-         */
+                        case "Groente- en fruitmarkt":
+                            GroentenEnFruit(_Speler);
+                            break;
+                        case "Kaasfabriek":
+                            Kaasfabriek(_Speler);
+                            break;
+                        case "Meubelfabriek":
+                            Meubelfabriek(_Speler);
+                            break;
+                        default:
+                            _Speler.Geld += _Kaart.BetalingsWaarde;
+                            lb_BovenGeld.Text = _Speler.Geld.ToString();
+                            break;
+                    }
+                }
+            }
+        }
+        private void Kaasfabriek(Speler _speler)
+        {
+            foreach (Kaart kaart in kaartenLijst)
+            {
+                if (kaart.Naam == "Veehouderij")
+                {
+                    _speler.Geld += kaart.Hoeveelheid * 3;
+                    break;
+                }
+            }
+        }
+        private void Meubelfabriek(Speler _speler)
+        {
+            foreach (Kaart kaart in kaartenLijst)
+            {
+                if (kaart.Naam == "Bos" || kaart.Naam == "Mijn")
+                {
+                    _speler.Geld += kaart.Hoeveelheid * 3;
+                }
+            }
+        }
+        private void GroentenEnFruit(Speler _speler)
+        {
+            foreach (Kaart kaart in kaartenLijst)
+            {
+                if (kaart.Naam == "Graanveld")
+                {
+                    _speler.Geld += kaart.Hoeveelheid * 2;
+                    break;
+                }
+            }
+        }
+
+        private void CheckBlauw(Kaart _Kaart, Speler _Speler) 
+        {
+            if (_Kaart.Waarde[0] >= rndNummer)
+            {
+                _Speler.Geld += _Kaart.BetalingsWaarde;
+            }
+        }
+        private void CheckPaars(Kaart _Kaart, Speler _Speler)
+        {
+            switch (_Kaart.Naam)
+            {
+                case "TV-station":
+                    TvStation(_Speler);
+                    break;
+                case "Stadium":
+                    Stadium(_Speler);
+                    break;
+            }
+        }
+        private void TvStation(Speler _Speler)
+        {
+            List<Speler> tempSpelerLijst = new List<Speler>();
+            foreach (Speler speler in spelerLijst)
+            {
+                if (speler != _Speler)
+                {
+                    tempSpelerLijst.Add(speler);
+                }
+            }
+            int tempNum = new Random().Next(tempSpelerLijst.Count);
+            foreach (Speler speler in tempSpelerLijst)
+            {
+                if (speler.Geld < 5)
+                {
+                    spelendeSpeler.Geld += speler.Geld;
+                    speler.Geld -= speler.Geld;
+                } else
+                {
+                    spelendeSpeler.Geld += 5;
+                    speler.Geld -= 5;
+                }
+            }
+        }
+        private void Stadium(Speler _Speler)
+        {
+            foreach (Speler speler in spelerLijst)
+            {
+                if (speler != _Speler)
+                {
+                    if (speler.Geld < 2)
+                    {
+                        spelendeSpeler.Geld += speler.Geld;
+                        speler.Geld -= speler.Geld;
+                    }
+                    else
+                    {
+                        spelendeSpeler.Geld += 2;
+                        speler.Geld -= 2;
+                    }
+                }
+            }
+        }
+        /*
+           private void CheckRood(Kaart _Card, Speler _Speler) 
+           {
+               foreach (waarde in _Card.Waarde) 
+               {
+                   if (waarde == rndNummer) 
+                   {
+                       if (spelendeSpeler.Geld > 1)
+                       {
+                           spelendeSpeler.Geld.Remove(_Card.BetalingsWaarde); //<---speler aan de beurt. 
+                           speler.Geld.Add(_Card.Betalingswaarde); //<---speler die rode kaart heeft
+                       }
+                   }
+               }   
+           }
+
+           */
         private void timer1_Tick(object sender, EventArgs e)
         {
 
@@ -268,10 +432,11 @@ namespace Machi_Koro
         {
             heeftGedobbeld = true;
             Random rnd = new Random();
-            int rndNummer = rnd.Next(1, 7);
+            rndNummer = rnd.Next(1, 7);
             bt_volgendespeler.Enabled = true;
             btn_Kopen.Enabled = true;
             lb_DobbelNummer.Text = rndNummer.ToString();
+            checkGeld();
         }
 
 
@@ -290,39 +455,21 @@ namespace Machi_Koro
         /// </summary>
         /// <param name="_Picturebox1">kaarten van de linker speler</param>
         /// <param name="_Picturebox2">kaarten van de rechter speler</param>
-        private void RotateCardsHorizontaal(List<PictureBox> _Picturebox1, List<PictureBox> _Picturebox2)
+        private void RotateCardsHorizontaal(List<PictureBox> _Picturebox1, List<PictureBox> _Picturebox2, List<PictureBox> _Picturebox3, List<PictureBox> _Picturebox4)
         {
-            //link
-            foreach (PictureBox pb in _Picturebox1)
+            for (int i = 0; i < _Picturebox1.Count; i++)
             {
-                pb.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                pb.Refresh();
+                _Picturebox1[i].Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                _Picturebox1[i].Refresh();
+                _Picturebox2[i].Image.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                _Picturebox2[i].Refresh();
             }
-            //rechts
-            foreach (PictureBox pb in _Picturebox2)
+            for (int i = 0; i < _Picturebox3.Count; i++)
             {
-                pb.Image.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                pb.Refresh();
-            }
-        }
-        /// <summary>
-        /// Functie om de boven en onder picture box te draaien
-        /// </summary>
-        /// <param name="_Picturebox1">kaarten van de onder speler</param>
-        /// <param name="_Picturebox2">kaarten van de boven speler</param>
-        private void RotateCardsVerticaal(List<PictureBox> _Picturebox1, List<PictureBox> _Picturebox2)
-        {
-            //onder
-            foreach (PictureBox pb in _Picturebox1)
-            {
-                pb.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                pb.Refresh();
-            }
-            //boven
-            foreach (PictureBox pb in _Picturebox2)
-            {
-                pb.Image.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                pb.Refresh();
+                _Picturebox3[i].Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                _Picturebox3[i].Refresh();
+                _Picturebox4[i].Image.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                _Picturebox4[i].Refresh();
             }
         }
 
@@ -332,48 +479,48 @@ namespace Machi_Koro
         private void LijstMakenPicureBoxes()
         {
             //onder speler
-            PicureBoxsOnder.Add(pb_OnderSpeler1);
-            PicureBoxsOnder.Add(pb_OnderSpeler2);
-            PicureBoxsOnder.Add(pb_OnderSpeler3);
-            PicureBoxsOnder.Add(pb_OnderSpeler4);
-            PicureBoxsOnder.Add(pb_OnderSpeler5);
-            PicureBoxsOnder.Add(pb_treinstation1);
-            PicureBoxsOnder.Add(pb_winkelcentrum1);
-            PicureBoxsOnder.Add(pb_pretpark1);
-            PicureBoxsOnder.Add(pb_radiostation1);
+            PicureBoxsOnderKaarten.Add(pb_OnderSpeler3);
+            PicureBoxsOnderKaarten.Add(pb_OnderSpeler2);
+            PicureBoxsOnderKaarten.Add(pb_OnderSpeler4);
+            PicureBoxsOnderKaarten.Add(pb_OnderSpeler1);
+            PicureBoxsOnderKaarten.Add(pb_OnderSpeler5);
+            PicureBoxsOnderBezienswaardigheden.Add(pb_treinstation1);
+            PicureBoxsOnderBezienswaardigheden.Add(pb_winkelcentrum1);
+            PicureBoxsOnderBezienswaardigheden.Add(pb_pretpark1);
+            PicureBoxsOnderBezienswaardigheden.Add(pb_radiostation1);
 
             //links speler
-            PicureBoxsLinks.Add(pb_LinksSpeler1);
-            PicureBoxsLinks.Add(pb_LinksSpeler2);
-            PicureBoxsLinks.Add(pb_LinksSpeler3);
-            PicureBoxsLinks.Add(pb_LinksSpeler4);
-            PicureBoxsLinks.Add(pb_LinksSpeler5);
-            PicureBoxsLinks.Add(pb_treinstation2);
-            PicureBoxsLinks.Add(pb_winkelcentrum2);
-            PicureBoxsLinks.Add(pb_pretpark2);
-            PicureBoxsLinks.Add(pb_radiostation2);
+            PicureBoxsLinksKaarten.Add(pb_LinksSpeler3);
+            PicureBoxsLinksKaarten.Add(pb_LinksSpeler2);
+            PicureBoxsLinksKaarten.Add(pb_LinksSpeler4);
+            PicureBoxsLinksKaarten.Add(pb_LinksSpeler1);
+            PicureBoxsLinksKaarten.Add(pb_LinksSpeler5);
+            PicureBoxsLinksBezienswaardigheden.Add(pb_treinstation2);
+            PicureBoxsLinksBezienswaardigheden.Add(pb_winkelcentrum2);
+            PicureBoxsLinksBezienswaardigheden.Add(pb_pretpark2);
+            PicureBoxsLinksBezienswaardigheden.Add(pb_radiostation2);
 
             //boven speler
-            PicureBoxsBoven.Add(pb_BovenSpeler1);
-            PicureBoxsBoven.Add(pb_BovenSpeler2);
-            PicureBoxsBoven.Add(pb_BovenSpeler3);
-            PicureBoxsBoven.Add(pb_BovenSpeler4);
-            PicureBoxsBoven.Add(pb_BovenSpeler5);
-            PicureBoxsBoven.Add(pb_treinstation3);
-            PicureBoxsBoven.Add(pb_winkelcentrum3);
-            PicureBoxsBoven.Add(pb_pretpark3);
-            PicureBoxsBoven.Add(pb_radiostation3);
+            PicureBoxsBovenKaarten.Add(pb_BovenSpeler3);
+            PicureBoxsBovenKaarten.Add(pb_BovenSpeler2);
+            PicureBoxsBovenKaarten.Add(pb_BovenSpeler4);
+            PicureBoxsBovenKaarten.Add(pb_BovenSpeler1);
+            PicureBoxsBovenKaarten.Add(pb_BovenSpeler5);
+            PicureBoxsBovenBezienswaardigheden.Add(pb_treinstation3);
+            PicureBoxsBovenBezienswaardigheden.Add(pb_winkelcentrum3);
+            PicureBoxsBovenBezienswaardigheden.Add(pb_pretpark3);
+            PicureBoxsBovenBezienswaardigheden.Add(pb_radiostation3);
 
             //rechts speler
-            PicureBoxsRechts.Add(pb_RechtsSpeler1);
-            PicureBoxsRechts.Add(pb_RechtsSpeler2);
-            PicureBoxsRechts.Add(pb_RechtsSpeler3);
-            PicureBoxsRechts.Add(pb_RechtsSpeler4);
-            PicureBoxsRechts.Add(pb_RechtsSpeler5);
-            PicureBoxsRechts.Add(pb_treinstation4);
-            PicureBoxsRechts.Add(pb_winkelcentrum4);
-            PicureBoxsRechts.Add(pb_pretpark4);
-            PicureBoxsRechts.Add(pb_radiostation4);
+            PicureBoxsRechtsKaarten.Add(pb_RechtsSpeler3);
+            PicureBoxsRechtsKaarten.Add(pb_RechtsSpeler2);
+            PicureBoxsRechtsKaarten.Add(pb_RechtsSpeler4);
+            PicureBoxsRechtsKaarten.Add(pb_RechtsSpeler1);
+            PicureBoxsRechtsKaarten.Add(pb_RechtsSpeler5);
+            PicureBoxsRechtsBezienswaardigheden.Add(pb_treinstation4);
+            PicureBoxsRechtsBezienswaardigheden.Add(pb_winkelcentrum4);
+            PicureBoxsRechtsBezienswaardigheden.Add(pb_pretpark4);
+            PicureBoxsRechtsBezienswaardigheden.Add(pb_radiostation4);
         }
     }
 }
