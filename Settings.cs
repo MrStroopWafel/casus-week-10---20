@@ -42,11 +42,11 @@ namespace Machi_Koro
             wachttijd_lengte = Int32.Parse(Tb_wachttijd.Text);
             if (Cb_wachttijd.Checked)
             {
-                wachttijd = true;
+                wachttijd = false;
             }
             else
             {
-                wachttijd = false;
+                wachttijd = true;
             }
             AI_moeilijkheid = Int32.Parse(Dd_moeilijkheid.Text);
             testlabel.Text = Dd_moeilijkheid.Text;
