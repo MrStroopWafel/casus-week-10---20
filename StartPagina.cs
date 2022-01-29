@@ -12,23 +12,24 @@ namespace Machi_Koro
 {
     public partial class StartPagina : Form
     {
-        Settings settings;
+        public Settings settings;
+        public bool StartGame;
         public StartPagina()
         {
             InitializeComponent();
-            label1.Text = initKaart.KaartenLijst[0].KaartUitdelen() + initKaart.KaartenLijst[0].Naam;
-            label2.Text = initKaart.KaartenLijst[15].Kleur + initKaart.KaartenLijst[15].Naam; 
+            settings = new Settings(this);
+            StartGame = false;
         }
 
         private void settingsButton_Click(object sender, EventArgs e)
         {
-            settings = new Settings(this);
             this.Hide();
             settings.ShowDialog();
         }
 
         private void startGameButton_Click(object sender, EventArgs e)
         {
+            StartGame = true;
             this.Close();
         }
     }

@@ -12,9 +12,9 @@ namespace Machi_Koro
 {
     public partial class Settings : Form
     {
-        bool wachttijd;
-        int wachttijd_lengte;
-        int AI_moeilijkheid;
+        public bool wachttijd;
+        public int wachttijd_lengte;
+        public int AI_moeilijkheid;
         private StartPagina StartPagina;
         public Settings(StartPagina _StartPagina)
         {
@@ -42,11 +42,11 @@ namespace Machi_Koro
             wachttijd_lengte = Int32.Parse(Tb_wachttijd.Text);
             if (Cb_wachttijd.Checked)
             {
-                wachttijd = true;
+                wachttijd = false;
             }
             else
             {
-                wachttijd = false;
+                wachttijd = true;
             }
             AI_moeilijkheid = Int32.Parse(Dd_moeilijkheid.Text);
             testlabel.Text = Dd_moeilijkheid.Text;
