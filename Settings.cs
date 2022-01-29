@@ -12,9 +12,9 @@ namespace Machi_Koro
 {
     public partial class Settings : Form
     {
-        bool wachttijd;
-        int wachttijd_lengte;
-        int AI_moeilijkheid;
+        public bool wachttijd;
+        public int wachttijd_lengte;
+        public int AI_moeilijkheid;
         private StartPagina StartPagina;
         public Settings(StartPagina _StartPagina)
         {

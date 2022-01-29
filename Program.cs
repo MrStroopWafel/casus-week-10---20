@@ -20,11 +20,11 @@ namespace Machi_Koro
             Application.Run(startPagina);
             if (startPagina.StartGame)
             {
-                InitScherm initscherm = new InitScherm();
-                Application.Run(initscherm);
-                if (initscherm.StartGame)
+                InitScherm initScherm = new InitScherm();
+                Application.Run(initScherm);
+                if (initScherm.StartGame)
                 {
-                    //Application.Run(new TafelScherm()); //(StartPagina.settings, InitScherm);
+                    Application.Run(new TafelScherm(startPagina.settings, initScherm));
                 }
             }
         }

@@ -17,7 +17,10 @@ namespace Machi_Koro
         private List<PictureBox> PicureBoxsLinks = new List<PictureBox>();
         private List<PictureBox> PicureBoxsBoven = new List<PictureBox>();
         private List<PictureBox> PicureBoxsRechts = new List<PictureBox>();
+        private List<Speler> spelerLijst = new List<Speler>();
         private bool heeftGedobbeld;
+        private bool wachttijd;
+        private int maxWachttijd;
         private Speler spelendeSpeler;
 
 
@@ -26,8 +29,81 @@ namespace Machi_Koro
         public TafelScherm(Settings _Settings, InitScherm _InitScherm)
         {
             InitializeComponent();
+            //aanmaken van picure box lijsten en het roteren van de pb
             LijstMakenPicureBoxes();
             RotateCardsHorizontaal(PicureBoxsLinks, PicureBoxsRechts);
+            //opzetten van de wachttijd
+            if (_Settings.wachttijd)
+            {
+                wachttijd = true;
+                maxWachttijd = _Settings.wachttijd_lengte;
+            } else
+            {
+                wachttijd = false;
+            }
+            //aanmaken van de speler en tafel
+            MaakSpelersAan(_InitScherm.AantalSpelers);
+            MaakTafel(spelerLijst.Count);
+
+
+
+
+
+
+            
+
+        }
+
+        private void MaakTafel(int _SpelerAantal)
+        {
+            switch (_SpelerAantal)
+            {
+                case 2:
+                    TweeSpelerScherm();
+                    break;
+                case 3:
+                    DrieSpelerScherm();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void TweeSpelerScherm()
+        {
+            foreach (PictureBox pb in PicureBoxsLinks)
+            {
+                pb.Hide();
+            }
+            foreach (PictureBox pb in PicureBoxsRechts)
+            {
+                pb.Hide();
+            }
+            lb_LinksSpeler.Hide();
+            lb_LinksGeld.Hide();
+            lb_RechtsSpeler.Hide();
+            lb_RechtsGeld.Hide();
+        }
+        private void DrieSpelerScherm()
+        {
+            foreach (PictureBox pb in PicureBoxsBoven)
+            {
+                pb.Hide();
+            }
+            lb_BovenSpeler.Hide();
+            lb_BovenGeld.Hide();
+        }
+
+        /// <summary>
+        /// methode om spelers aan te maken tijdens creatie van de klasse
+        /// </summary>
+        /// <param name="_AantalSpelers">De hoeveelheid spelers zoals in initscherm is aangegeven</param>
+        private void MaakSpelersAan(int _AantalSpelers)
+        {
+            for (int i = 0; i < _AantalSpelers; i++)
+            {
+                spelerLijst.Add(new Speler());
+            }
         }
         /*
         private void BezienswaardigheidKopen(object sender, EventArgs e)

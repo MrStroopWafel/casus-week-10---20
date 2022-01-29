@@ -12,17 +12,17 @@ namespace Machi_Koro
 {
     public partial class StartPagina : Form
     {
-        Settings settings;
+        public Settings settings;
         public bool StartGame;
         public StartPagina()
         {
             InitializeComponent();
+            settings = new Settings(this);
             StartGame = false;
         }
 
         private void settingsButton_Click(object sender, EventArgs e)
         {
-            settings = new Settings(this);
             this.Hide();
             settings.ShowDialog();
         }
