@@ -114,27 +114,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="MK_kaarten\images\0 - Graanveld.jpg" />
-    <Content Include="MK_kaarten\images\1 - Veehouderij.jpg" />
-    <Content Include="MK_kaarten\images\10 - Café.jpg" />
-    <Content Include="MK_kaarten\images\11 - Restaurant.jpg" />
-    <Content Include="MK_kaarten\images\12 - Treinstation %28NG%29.jpg" />
-    <Content Include="MK_kaarten\images\13 - Winkelcentrum %28NG%29.jpg" />
-    <Content Include="MK_kaarten\images\14 - Pretpark %28NG%29.jpg" />
-    <Content Include="MK_kaarten\images\15 - Radiostation %28NG%29.jpg" />
-    <Content Include="MK_kaarten\images\16 - Treinstation.jpg" />
-    <Content Include="MK_kaarten\images\17 - Winkelcentrum.jpg" />
-    <Content Include="MK_kaarten\images\18 - Pretpark.jpg" />
-    <Content Include="MK_kaarten\images\19 - Radiostation.jpg" />
-    <Content Include="MK_kaarten\images\2 - Bos.jpg" />
-    <Content Include="MK_kaarten\images\3 - Mijn.jpg" />
-    <Content Include="MK_kaarten\images\4 - Appelboomgaard.jpg" />
-    <Content Include="MK_kaarten\images\5 - Bakkerij.jpg" />
-    <Content Include="MK_kaarten\images\6 - Supermarkt.jpg" />
-    <Content Include="MK_kaarten\images\7 - Kaasfabriek.jpg" />
-    <Content Include="MK_kaarten\images\8 - Meubelfabriek.jpg" />
-    <Content Include="MK_kaarten\images\9 - Groente- en fruitmarkt.jpg" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

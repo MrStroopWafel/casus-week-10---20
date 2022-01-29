@@ -13,9 +13,11 @@ namespace Machi_Koro
     public partial class StartPagina : Form
     {
         Settings settings;
+        public bool StartGame;
         public StartPagina()
         {
             InitializeComponent();
+            StartGame = false;
         }
 
         private void settingsButton_Click(object sender, EventArgs e)
@@ -27,6 +29,7 @@ namespace Machi_Koro
 
         private void startGameButton_Click(object sender, EventArgs e)
         {
+            StartGame = true;
             this.Close();
         }
     }

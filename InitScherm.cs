@@ -12,16 +12,20 @@ namespace Machi_Koro
 {
     public partial class InitScherm : Form
     {
-        int AantalSpelers, AantalAi;
+        public int AantalSpelers, AantalAi;
+        public bool StartGame;
+
         public InitScherm()
         {
             InitializeComponent();
+            StartGame = false;
         }
 
         private void btn_Begin_Click(object sender, EventArgs e)
         {
             AantalSpelers = DropdownToInt(cmb_SpelerAantal.Text);
             AantalAi = DropdownToInt(cmb_AiAantal.Text);
+            StartGame = true;
             this.Close();
         }
         /// <summary>
