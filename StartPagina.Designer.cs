@@ -28,46 +28,63 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.startGameButton = new System.Windows.Forms.Button();
+            this.settingsButton = new System.Windows.Forms.Button();
+            this.hoofdschermLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // label1
+            // startGameButton
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(245, 128);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
+            this.startGameButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
+            this.startGameButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.startGameButton.Location = new System.Drawing.Point(400, 183);
+            this.startGameButton.Name = "startGameButton";
+            this.startGameButton.Size = new System.Drawing.Size(173, 57);
+            this.startGameButton.TabIndex = 0;
+            this.startGameButton.Text = "Start Game";
+            this.startGameButton.UseVisualStyleBackColor = true;
+            this.startGameButton.Click += new System.EventHandler(this.startGameButton_Click);
             // 
-            // label2
+            // settingsButton
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(245, 185);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 17);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "label2";
+            this.settingsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
+            this.settingsButton.Location = new System.Drawing.Point(400, 256);
+            this.settingsButton.Name = "settingsButton";
+            this.settingsButton.Size = new System.Drawing.Size(173, 59);
+            this.settingsButton.TabIndex = 1;
+            this.settingsButton.Text = "Settings";
+            this.settingsButton.UseVisualStyleBackColor = true;
+            this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
+            // 
+            // hoofdschermLabel
+            // 
+            this.hoofdschermLabel.AutoSize = true;
+            this.hoofdschermLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.hoofdschermLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
+            this.hoofdschermLabel.Location = new System.Drawing.Point(88, 120);
+            this.hoofdschermLabel.Name = "hoofdschermLabel";
+            this.hoofdschermLabel.Size = new System.Drawing.Size(821, 33);
+            this.hoofdschermLabel.TabIndex = 2;
+            this.hoofdschermLabel.Text = "Welkom bij Machi Koro, klik op een knop hieronder om te beginnen!\r\n";
             // 
             // StartPagina
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(962, 520);
+            this.Controls.Add(this.hoofdschermLabel);
+            this.Controls.Add(this.settingsButton);
+            this.Controls.Add(this.startGameButton);
             this.Name = "StartPagina";
-            this.Text = "Form1";
+            this.Text = "Machi Koro";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button startGameButton;
+        private System.Windows.Forms.Button settingsButton;
+        private System.Windows.Forms.Label hoofdschermLabel;
     }
 }
 
