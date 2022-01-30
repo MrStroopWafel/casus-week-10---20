@@ -19,7 +19,6 @@ namespace Machi_Koro
 
         public InitKaart()
         {
-            int i = 0;
             Lines = File.ReadAllLines(filePath).ToList();
             foreach (var Line in Lines)
             {
@@ -43,7 +42,6 @@ namespace Machi_Koro
                 }
 
                 Kaart newKaart = new Kaart(entries[0], Int32.Parse(entries[1]), entries[2], entries[3], Int32.Parse(entries[4]), Int32.Parse(entries[5]), TempList);
-                KaartenLijst.Add(newKaart);
                 if (Int32.Parse(entries[4]) < 89)
                 {
                     KaartenLijst.Add(newKaart);

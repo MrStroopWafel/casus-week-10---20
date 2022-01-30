@@ -85,6 +85,9 @@
     <EmbeddedResource Include="InitScherm.resx">
       <DependentUpon>InitScherm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="KoopScherm.resx">
+      <DependentUpon>KoopScherm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

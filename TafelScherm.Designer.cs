@@ -226,7 +226,7 @@
             this.pb_treinstation1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb_treinstation1.TabIndex = 27;
             this.pb_treinstation1.TabStop = false;
-            this.pb_treinstation1.Click += new System.EventHandler(this.pb_treinstation1_Click);
+            this.pb_treinstation1.Click += new System.EventHandler(this.pb_Treinstation1_Click);
             // 
             // pb_pretpark1
             // 
@@ -237,6 +237,7 @@
             this.pb_pretpark1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb_pretpark1.TabIndex = 28;
             this.pb_pretpark1.TabStop = false;
+            this.pb_pretpark1.Click += new System.EventHandler(this.pb_Pretpark1_Click);
             // 
             // pb_winkelcentrum1
             // 
@@ -247,6 +248,7 @@
             this.pb_winkelcentrum1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb_winkelcentrum1.TabIndex = 29;
             this.pb_winkelcentrum1.TabStop = false;
+            this.pb_winkelcentrum1.Click += new System.EventHandler(this.pb_Winkelcentrum1_Click);
             // 
             // pb_radiostation1
             // 
@@ -257,6 +259,7 @@
             this.pb_radiostation1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb_radiostation1.TabIndex = 30;
             this.pb_radiostation1.TabStop = false;
+            this.pb_radiostation1.Click += new System.EventHandler(this.pb_Radiostation1_Click);
             // 
             // pb_treinstation3
             // 

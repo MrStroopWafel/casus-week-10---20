@@ -23,9 +23,10 @@ namespace Machi_Koro
         private List<PictureBox> PicureBoxsRechtsBezienswaardigheden = new List<PictureBox>();
         private List<Speler> spelerLijst = new List<Speler>();
         private List<Kaart> kaartenLijst = new List<Kaart>();
+        private List<Kaart> BezienswaardighedenLijst = new List<Kaart>();
         private bool heeftGedobbeld;
         private bool wachttijd;
-        private int maxWachttijd, rndNummer;
+        private int maxWachttijd, rndNummer, ronde;
         private Speler spelendeSpeler;
 
 
@@ -34,6 +35,7 @@ namespace Machi_Koro
             InitializeComponent();
             //aanmaken van picure box lijsten en het roteren van de pb
             LijstMakenPicureBoxes();
+            ronde = 1;
 
 
             HideAllPictureboxes();
@@ -51,7 +53,9 @@ namespace Machi_Koro
             }
             //aanmaken van de speler
             MaakSpelersAan(_InitScherm.AantalSpelers);
-            kaartenLijst = new InitKaart().KaartenLijst;
+            InitKaart initKaart = new InitKaart();
+            kaartenLijst = initKaart.KaartenLijst;
+            BezienswaardighedenLijst = initKaart.BezienswaardighedenLijst;
 
             foreach (Speler speler in spelerLijst)
             {
@@ -61,7 +65,7 @@ namespace Machi_Koro
 
             spelendeSpeler = spelerLijst[0];
             LaadAlleKaarten();
-            RotateCardsHorizontaal(PicureBoxsLinksKaarten, PicureBoxsRechtsKaarten, PicureBoxsLinksBezienswaardigheden, PicureBoxsRechtsBezienswaardigheden);
+            RotateCardsHorizontaal(PicureBoxsLinksKaarten, PicureBoxsRechtsKaarten, PicureBoxsLinksBezienswaardigheden, PicureBoxsRechtsBezienswaardigheden, true);
         }
 
         private void LaadAlleKaarten()
@@ -96,14 +100,31 @@ namespace Machi_Koro
         }
         private void LaadKaartenOnder()
         {
-            for (int i = 0; i < spelerLijst.Count; i++)
+            string bestand;
+            string filePath;
+            for (int x = 0; x < spelendeSpeler.Gebouwen.Count; x++)
             {
-                for (int x = 0; x < spelerLijst[i].Gebouwen.Count; x++)
+                bestand = spelendeSpeler.Gebouwen[x].Naam;
+                filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                PicureBoxsOnderKaarten[x].Image = Image.FromFile(filePath);
+                PicureBoxsOnderKaarten[x].Show();
+            }
+            for (int x = 0; x < 4; x++)
+            {
+                bestand = BezienswaardighedenLijst[x].Naam;
+                filePath = $"../../MK_kaarten/images/{bestand} (NG).jpg";
+                PicureBoxsOnderBezienswaardigheden[x].Image = Image.FromFile(filePath);
+                PicureBoxsOnderBezienswaardigheden[x].Show();
+                foreach (Kaart Bezienswaardigheid in spelendeSpeler.Bezienswaardigheden)
                 {
-                    string bestand = spelerLijst[i].Gebouwen[x].Naam;
-                    string filePath = $"../../MK_kaarten/images/{bestand}.jpg";
-                    PicureBoxsOnderKaarten[x].Image = Image.FromFile(filePath);
-                    PicureBoxsOnderKaarten[x].Show();
+                    if (Bezienswaardigheid.Naam == BezienswaardighedenLijst[x].Naam)
+                    {
+                        bestand = Bezienswaardigheid.Naam;
+                        filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                        PicureBoxsOnderBezienswaardigheden[x].Image = Image.FromFile(filePath);
+                        PicureBoxsOnderBezienswaardigheden[x].Show();
+
+                    }
                 }
             }
         }
@@ -151,6 +172,18 @@ namespace Machi_Koro
         {
             List<int> templist = new List<int>();
             foreach (Kaart kaart in kaartenLijst)
+            {
+                if (kaart.Naam == _KaartNaam)
+                {
+                    return kaart;
+                }
+            }
+            return new Kaart("niks", 0, " ", "Failcard", 0, 0, templist);
+        }
+        private Kaart HaalBezienswaardigheidtOp(string _KaartNaam)
+        {
+            List<int> templist = new List<int>();
+            foreach (Kaart kaart in BezienswaardighedenLijst)
             {
                 if (kaart.Naam == _KaartNaam)
                 {
@@ -227,19 +260,346 @@ namespace Machi_Koro
         {
             for (int i = 0; i < _AantalSpelers; i++)
             {
-                spelerLijst.Add(new Speler());
+                int spelerNummer = 1 + i;
+                spelerLijst.Add(new Speler(spelerNummer));
             }
         }
-
-        private void pb_treinstation1_Click(object sender, EventArgs e)
+        private void pb_Treinstation1_Click(object sender, EventArgs e)
         {
-            if (spelendeSpeler.Geld >= kaartenLijst[14].Prijs)
+            if (spelendeSpeler.Geld >= BezienswaardighedenLijst[0].Prijs && heeftGedobbeld)
             {
-                spelendeSpeler.Bezienswaardigheden.Add(HaalKaartOp("Treinstation"));
+                spelendeSpeler.Bezienswaardigheden.Add(HaalBezienswaardigheidtOp("Treinstation"));
+                string bestand = BezienswaardighedenLijst[0].Naam;
+                string filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                pb_treinstation1.Image = Image.FromFile(filePath);
+                pb_treinstation1.Show();
+                spelendeSpeler.Geld -= BezienswaardighedenLijst[0].Prijs;
+                VolgendeRonden();
+            }
+        }
+        private void pb_Winkelcentrum1_Click(object sender, EventArgs e)
+        {
+            if (spelendeSpeler.Geld >= BezienswaardighedenLijst[1].Prijs && heeftGedobbeld)
+            {
+                spelendeSpeler.Bezienswaardigheden.Add(HaalBezienswaardigheidtOp("Winkelcentrum"));
+                string bestand = BezienswaardighedenLijst[1].Naam;
+                string filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                pb_winkelcentrum1.Image = Image.FromFile(filePath);
+                pb_winkelcentrum1.Show();
+                spelendeSpeler.Geld -= BezienswaardighedenLijst[1].Prijs;
+                VolgendeRonden();
+            }
+        }
+        private void pb_Pretpark1_Click(object sender, EventArgs e)
+        {
+            if (spelendeSpeler.Geld >= BezienswaardighedenLijst[2].Prijs && heeftGedobbeld)
+            {
+                spelendeSpeler.Bezienswaardigheden.Add(HaalBezienswaardigheidtOp("Pretpark"));
+                string bestand = BezienswaardighedenLijst[2].Naam;
+                string filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                pb_pretpark1.Image = Image.FromFile(filePath);
+                pb_pretpark1.Show();
+                spelendeSpeler.Geld -= BezienswaardighedenLijst[2].Prijs;
+                VolgendeRonden();
+            }
+        }
+        private void pb_Radiostation1_Click(object sender, EventArgs e)
+        {
+            if (spelendeSpeler.Geld >= BezienswaardighedenLijst[3].Prijs && heeftGedobbeld)
+            {
+                spelendeSpeler.Bezienswaardigheden.Add(HaalBezienswaardigheidtOp("Radiostation"));
+                string bestand = BezienswaardighedenLijst[3].Naam;
+                string filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                pb_radiostation1.Image = Image.FromFile(filePath);
+                pb_radiostation1.Show();
+                spelendeSpeler.Geld -= BezienswaardighedenLijst[3].Prijs;
+                VolgendeRonden();
             }
         }
         private void VolgendeRonden()
         {
+            int volgendeNummer = spelendeSpeler.SpelerNummer - 1;
+            if (volgendeNummer == 0)
+            {
+                switch (spelerLijst.Count)
+                {
+                    case 2:
+                        volgendeNummer = 2;
+                        break;
+                    case 3:
+                        volgendeNummer = 3;
+                        break;
+                    default:
+                        volgendeNummer = 4;
+                        break;
+                }
+            }
+            foreach (Speler speler in spelerLijst)
+            {
+                speler.Positie = speler.Positie + 1;
+                if (speler.Positie > spelerLijst.Count)
+                {
+                    speler.Positie = 1;
+                }
+            }
+
+            foreach (Speler speler in spelerLijst)
+            {
+                if (speler.SpelerNummer == volgendeNummer)
+                {
+                    spelendeSpeler = speler;
+                    heeftGedobbeld = false;
+                    HideAllPictureboxes();
+                    LaadKaartenOnder();
+                    bt_dobbel.Visible = true;
+                    btn_Kopen.Visible = false;
+                    bt_volgendespeler.Visible = false;
+                    lb_DobbelNummer.Visible = false;
+                    ++ronde;
+
+                    switch (spelerLijst.Count)
+                    {
+                        case 2:
+                            WisselTweeSpelers();
+                            break;
+                        case 3:
+                            WisselDrieSpelers();
+                            break;
+                        default:
+                            WisselSpelers();
+                            break;
+                    }
+                }
+            }
+        }
+        private void WisselTweeSpelers()
+        {
+            string bestand;
+            string filePath;
+            foreach (Speler speler in spelerLijst)
+            {
+
+                if (speler != spelendeSpeler)
+                {
+                    for (int x = 0; x < speler.Gebouwen.Count; x++)
+                    {
+                        bestand = speler.Gebouwen[x].Naam;
+                        filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                        PicureBoxsBovenKaarten[x].Image = Image.FromFile(filePath);
+                        PicureBoxsBovenKaarten[x].Show();
+                        lb_BovenGeld.Text = speler.Geld.ToString();
+                        lb_BovenSpeler.Text = "Speler " + speler.SpelerNummer.ToString();
+                    }
+                    for (int x = 0; x < 4; x++)
+                    {
+                        if (x < speler.Bezienswaardigheden.Count && speler.Bezienswaardigheden[x].Naam == BezienswaardighedenLijst[x].Naam)
+                        {
+                            bestand = speler.Bezienswaardigheden[x].Naam;
+                            filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                            PicureBoxsBovenBezienswaardigheden[x].Image = Image.FromFile(filePath);
+                            PicureBoxsBovenBezienswaardigheden[x].Show();
+                        }
+                        else
+                        {
+                            bestand = BezienswaardighedenLijst[x].Naam;
+                            filePath = $"../../MK_kaarten/images/{bestand} (NG).jpg";
+                            PicureBoxsBovenBezienswaardigheden[x].Image = Image.FromFile(filePath);
+                            PicureBoxsBovenBezienswaardigheden[x].Show();
+                            foreach (Kaart Bezienswaardigheid in speler.Bezienswaardigheden)
+                            {
+                                if (Bezienswaardigheid.Naam == BezienswaardighedenLijst[x].Naam)
+                                {
+                                    bestand = Bezienswaardigheid.Naam;
+                                    filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                                    PicureBoxsBovenBezienswaardigheden[x].Image = Image.FromFile(filePath);
+                                    PicureBoxsBovenBezienswaardigheden[x].Show();
+
+                                }
+                            }
+                        }
+                    }
+                    UpdateLabel();
+                    break;
+                }
+            }
+        }
+        private void WisselDrieSpelers()
+        {
+            string bestand;
+            string filePath;
+            foreach (Speler speler in spelerLijst)
+            {
+
+                if (speler != spelendeSpeler)
+                {
+                    if (speler.Positie == 2)
+                    {
+                        for (int x = 0; x < speler.Gebouwen.Count; x++)
+                        {
+                            bestand = speler.Gebouwen[x].Naam;
+                            filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                            PicureBoxsLinksKaarten[x].Image = Image.FromFile(filePath);
+                            PicureBoxsLinksKaarten[x].Show();
+                            lb_LinksGeld.Text = speler.Geld.ToString();
+                            lb_LinksSpeler.Text = "Speler " + speler.SpelerNummer.ToString();
+                        }
+                        for (int x = 0; x < 4; x++)
+                        {
+                            bestand = BezienswaardighedenLijst[x].Naam;
+                            filePath = $"../../MK_kaarten/images/{bestand} (NG).jpg";
+                            PicureBoxsLinksBezienswaardigheden[x].Image = Image.FromFile(filePath);
+                            PicureBoxsLinksBezienswaardigheden[x].Show();
+                            foreach (Kaart Bezienswaardigheid in speler.Bezienswaardigheden)
+                            {
+                                if (Bezienswaardigheid.Naam == BezienswaardighedenLijst[x].Naam)
+                                {
+                                    bestand = Bezienswaardigheid.Naam;
+                                    filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                                    PicureBoxsLinksBezienswaardigheden[x].Image = Image.FromFile(filePath);
+                                    PicureBoxsLinksBezienswaardigheden[x].Show();
+
+                                }
+                            }
+                        }
+                    }
+                    else if (speler.Positie == 3)
+                    {
+                        for (int x = 0; x < speler.Gebouwen.Count; x++)
+                        {
+                            bestand = speler.Gebouwen[x].Naam;
+                            filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                            PicureBoxsRechtsKaarten[x].Image = Image.FromFile(filePath);
+                            PicureBoxsRechtsKaarten[x].Show();
+                            lb_RechtsGeld.Text = speler.Geld.ToString();
+                            lb_RechtsSpeler.Text = "Speler " + speler.SpelerNummer.ToString();
+                        }
+                        for (int x = 0; x < 4; x++)
+                        {
+                            bestand = BezienswaardighedenLijst[x].Naam;
+                            filePath = $"../../MK_kaarten/images/{bestand} (NG).jpg";
+                            PicureBoxsRechtsBezienswaardigheden[x].Image = Image.FromFile(filePath);
+                            PicureBoxsRechtsBezienswaardigheden[x].Show();
+                            foreach (Kaart Bezienswaardigheid in speler.Bezienswaardigheden)
+                            {
+                                if (Bezienswaardigheid.Naam == BezienswaardighedenLijst[x].Naam)
+                                {
+                                    bestand = Bezienswaardigheid.Naam;
+                                    filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                                    PicureBoxsRechtsBezienswaardigheden[x].Image = Image.FromFile(filePath);
+                                    PicureBoxsRechtsBezienswaardigheden[x].Show();
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            RotateCardsHorizontaal(PicureBoxsLinksKaarten, PicureBoxsRechtsKaarten, PicureBoxsLinksBezienswaardigheden, PicureBoxsRechtsBezienswaardigheden, true);
+            UpdateLabel();
+        }
+        private void WisselSpelers()
+        {
+            string bestand;
+            string filePath;
+            foreach (Speler speler in spelerLijst)
+            {
+
+                if (speler != spelendeSpeler)
+                {
+                    if (speler.Positie == 2)
+                    {
+                        for (int x = 0; x < speler.Gebouwen.Count; x++)
+                        {
+                            bestand = speler.Gebouwen[x].Naam;
+                            filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                            PicureBoxsLinksKaarten[x].Image = Image.FromFile(filePath);
+                            PicureBoxsLinksKaarten[x].Show();
+                            lb_LinksGeld.Text = speler.Geld.ToString();
+                            lb_LinksSpeler.Text = "Speler " + speler.SpelerNummer.ToString();
+                        }
+                        for (int x = 0; x < 4; x++)
+                        {
+                            bestand = BezienswaardighedenLijst[x].Naam;
+                            filePath = $"../../MK_kaarten/images/{bestand} (NG).jpg";
+                            PicureBoxsLinksBezienswaardigheden[x].Image = Image.FromFile(filePath);
+                            PicureBoxsLinksBezienswaardigheden[x].Show();
+                            foreach (Kaart Bezienswaardigheid in speler.Bezienswaardigheden)
+                            {
+                                if (Bezienswaardigheid.Naam == BezienswaardighedenLijst[x].Naam)
+                                {
+                                    bestand = Bezienswaardigheid.Naam;
+                                    filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                                    PicureBoxsLinksBezienswaardigheden[x].Image = Image.FromFile(filePath);
+                                    PicureBoxsLinksBezienswaardigheden[x].Show();
+
+                                }
+                            }
+                        }
+                    }
+                    else if (speler.Positie == 3)
+                    {
+                        for (int x = 0; x < speler.Gebouwen.Count; x++)
+                        {
+                            bestand = speler.Gebouwen[x].Naam;
+                            filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                            PicureBoxsBovenKaarten[x].Image = Image.FromFile(filePath);
+                            PicureBoxsBovenKaarten[x].Show();
+                            lb_RechtsGeld.Text = speler.Geld.ToString();
+                            lb_RechtsSpeler.Text = "Speler " + speler.SpelerNummer.ToString();
+                        }
+                        for (int x = 0; x < 4; x++)
+                        {
+                            bestand = BezienswaardighedenLijst[x].Naam;
+                            filePath = $"../../MK_kaarten/images/{bestand} (NG).jpg";
+                            PicureBoxsBovenBezienswaardigheden[x].Image = Image.FromFile(filePath);
+                            PicureBoxsBovenBezienswaardigheden[x].Show();
+                            foreach (Kaart Bezienswaardigheid in speler.Bezienswaardigheden)
+                            {
+                                if (Bezienswaardigheid.Naam == BezienswaardighedenLijst[x].Naam)
+                                {
+                                    bestand = Bezienswaardigheid.Naam;
+                                    filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                                    PicureBoxsBovenBezienswaardigheden[x].Image = Image.FromFile(filePath);
+                                    PicureBoxsBovenBezienswaardigheden[x].Show();
+
+                                }
+                            }
+                        }
+                    }
+                    else if (speler.Positie == 4)
+                    {
+                        for (int x = 0; x < speler.Gebouwen.Count; x++)
+                        {
+                            bestand = speler.Gebouwen[x].Naam;
+                            filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                            PicureBoxsRechtsKaarten[x].Image = Image.FromFile(filePath);
+                            PicureBoxsRechtsKaarten[x].Show();
+                            lb_RechtsGeld.Text = speler.Geld.ToString();
+                            lb_RechtsSpeler.Text = "Speler " + speler.SpelerNummer.ToString();
+                        }
+                        for (int x = 0; x < 4; x++)
+                        {
+                            foreach (Kaart Bezienswaardigheid in speler.Bezienswaardigheden)
+                            {
+                                bestand = BezienswaardighedenLijst[x].Naam;
+                                filePath = $"../../MK_kaarten/images/{bestand} (NG).jpg";
+                                PicureBoxsRechtsBezienswaardigheden[x].Image = Image.FromFile(filePath);
+                                PicureBoxsRechtsBezienswaardigheden[x].Show();
+                                if (Bezienswaardigheid.Naam == BezienswaardighedenLijst[x].Naam)
+                                {
+                                    bestand = Bezienswaardigheid.Naam;
+                                    filePath = $"../../MK_kaarten/images/{bestand}.jpg";
+                                    PicureBoxsRechtsBezienswaardigheden[x].Image = Image.FromFile(filePath);
+                                    PicureBoxsRechtsBezienswaardigheden[x].Show();
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            RotateCardsHorizontaal(PicureBoxsLinksKaarten, PicureBoxsRechtsKaarten, PicureBoxsLinksBezienswaardigheden, PicureBoxsRechtsBezienswaardigheden, true);
+            UpdateLabel();
         }
         public void checkGeld()
         {
@@ -285,10 +645,12 @@ namespace Machi_Koro
                     }
                 }
             }
+            heeftGedobbeld = true;
             bt_dobbel.Visible = false;
             btn_Kopen.Visible = true;
             bt_volgendespeler.Visible = true;
             lb_DobbelNummer.Visible = true;
+            UpdateLabel();
         }
 
         private void CheckGroen(Kaart _Kaart, Speler _Speler)
@@ -309,7 +671,7 @@ namespace Machi_Koro
                             Meubelfabriek(_Speler);
                             break;
                         default:
-                            _Speler.Geld += _Kaart.BetalingsWaarde;
+                            _Speler.Geld = _Speler.Geld + _Kaart.BetalingsWaarde;
                             break;
                     }
                 }
@@ -321,7 +683,7 @@ namespace Machi_Koro
             {
                 if (kaart.Naam == "Veehouderij")
                 {
-                    _speler.Geld += kaart.Hoeveelheid * 3;
+                    _speler.Geld = _speler.Geld + kaart.Hoeveelheid * 3;
                     break;
                 }
             }
@@ -332,7 +694,7 @@ namespace Machi_Koro
             {
                 if (kaart.Naam == "Bos" || kaart.Naam == "Mijn")
                 {
-                    _speler.Geld += kaart.Hoeveelheid * 3;
+                    _speler.Geld = _speler.Geld + kaart.Hoeveelheid * 3;
                 }
             }
         }
@@ -342,7 +704,7 @@ namespace Machi_Koro
             {
                 if (kaart.Naam == "Graanveld")
                 {
-                    _speler.Geld += kaart.Hoeveelheid * 2;
+                    _speler.Geld = _speler.Geld + kaart.Hoeveelheid * 2;
                     break;
                 }
             }
@@ -352,7 +714,7 @@ namespace Machi_Koro
         {
             if (_Kaart.Waarde[0] >= rndNummer)
             {
-                _Speler.Geld += _Kaart.BetalingsWaarde;
+                _Speler.Geld = _Speler.Geld + _Kaart.BetalingsWaarde;
             }
         }
         private void CheckPaars(Kaart _Kaart, Speler _Speler)
@@ -382,13 +744,13 @@ namespace Machi_Koro
             {
                 if (speler.Geld < 5)
                 {
-                    spelendeSpeler.Geld += speler.Geld;
-                    speler.Geld -= speler.Geld;
+                    spelendeSpeler.Geld = spelendeSpeler.Geld + speler.Geld;
+                    speler.Geld = speler.Geld - speler.Geld;
                 }
                 else
                 {
-                    spelendeSpeler.Geld += 5;
-                    speler.Geld -= 5;
+                    spelendeSpeler.Geld = spelendeSpeler.Geld + 5;
+                    speler.Geld = speler.Geld - 5;
                 }
             }
         }
@@ -400,13 +762,13 @@ namespace Machi_Koro
                 {
                     if (speler.Geld < 2)
                     {
-                        spelendeSpeler.Geld += speler.Geld;
-                        speler.Geld -= speler.Geld;
+                        spelendeSpeler.Geld = spelendeSpeler.Geld + speler.Geld;
+                        speler.Geld = speler.Geld - speler.Geld;
                     }
                     else
                     {
-                        spelendeSpeler.Geld += 2;
-                        speler.Geld -= 2;
+                        spelendeSpeler.Geld = spelendeSpeler.Geld + 2;
+                        speler.Geld = speler.Geld - 2;
                     }
                 }
             }
@@ -419,14 +781,92 @@ namespace Machi_Koro
                 {
                     if (spelendeSpeler.Geld > _Kaart.BetalingsWaarde)
                     {
-                        spelendeSpeler.Geld -= _Kaart.BetalingsWaarde;  //<---speler aan de beurt. 
-                        _Speler.Geld += _Kaart.BetalingsWaarde; //<---speler die rode kaart heeft
+                        spelendeSpeler.Geld = spelendeSpeler.Geld - _Kaart.BetalingsWaarde;  //<---speler aan de beurt. 
+                        _Speler.Geld = _Speler.Geld + _Kaart.BetalingsWaarde; //<---speler die rode kaart heeft
                     }
                     else
                     {
-                        _Speler.Geld += spelendeSpeler.Geld; //<---speler die rode kaart heeft
-                        spelendeSpeler.Geld -= spelendeSpeler.Geld;  //<---speler aan de beurt. 
+                        _Speler.Geld = _Speler.Geld + spelendeSpeler.Geld; //<---speler die rode kaart heeft
+                        spelendeSpeler.Geld = spelendeSpeler.Geld - spelendeSpeler.Geld;  //<---speler aan de beurt. 
                     }
+                }
+            }
+        }
+        private void UpdateLabel()
+        {
+            switch (spelerLijst.Count)
+            {
+                case 2:
+                    UpdateLabelTweeSpelers();
+                    break;
+                case 3:
+                    UpdateLabelDrieSpelers();
+                    break;
+                default:
+                    UpdateLabelVierSpelers();
+                    break;
+            }
+        }
+        private void UpdateLabelVierSpelers()
+        {
+            foreach (Speler speler in spelerLijst)
+            {
+                switch (speler.Positie)
+                {
+                    case 1:
+                        lb_OnderGeld.Text = speler.Geld.ToString();
+                        lb_OnderSpeler.Text = "Speler " + speler.SpelerNummer.ToString();
+                        break;
+                    case 2:
+                        lb_LinksGeld.Text = speler.Geld.ToString();
+                        lb_LinksSpeler.Text = "Speler " + speler.SpelerNummer.ToString();
+                        break;
+                    case 3:
+                        lb_BovenGeld.Text = speler.Geld.ToString();
+                        lb_BovenSpeler.Text = "Speler " + speler.SpelerNummer.ToString();
+                        break;
+                    case 4:
+                        lb_RechtsGeld.Text = speler.Geld.ToString();
+                        lb_RechtsSpeler.Text = "Speler " + speler.SpelerNummer.ToString();
+                        break;
+                }
+            }
+        }
+        private void UpdateLabelDrieSpelers()
+        {
+            foreach (Speler speler in spelerLijst)
+            {
+                switch (speler.Positie)
+                {
+                    case 1:
+                        lb_OnderGeld.Text = speler.Geld.ToString();
+                        lb_OnderSpeler.Text = "Speler " + speler.SpelerNummer.ToString();
+                        break;
+                    case 2:
+                        lb_LinksGeld.Text = speler.Geld.ToString();
+                        lb_LinksSpeler.Text = "Speler " + speler.SpelerNummer.ToString();
+                        break;
+                    case 3:
+                        lb_RechtsGeld.Text = speler.Geld.ToString();
+                        lb_RechtsSpeler.Text = "Speler " + speler.SpelerNummer.ToString();
+                        break;
+                }
+            }
+        }
+        private void UpdateLabelTweeSpelers()
+        {
+            foreach (Speler speler in spelerLijst)
+            {
+                switch (speler.Positie)
+                {
+                    case 1:
+                        lb_OnderGeld.Text = speler.Geld.ToString();
+                        lb_OnderSpeler.Text = "Speler " + speler.SpelerNummer.ToString();
+                        break;
+                    case 2:
+                        lb_BovenGeld.Text = speler.Geld.ToString();
+                        lb_BovenSpeler.Text = "Speler " + speler.SpelerNummer.ToString();
+                        break;
                 }
             }
         }
@@ -446,23 +886,28 @@ namespace Machi_Koro
             checkGeld();
         }
 
-
         private void bt_volgendespeler_Click(object sender, EventArgs e)
         {
-
+            VolgendeRonden();
         }
 
         private void btn_Kopen_Click(object sender, EventArgs e)
         {
-            //KoopScherm koopscherm = new KoopScherm();
-            //Application.Run(koopscherm);
+            KoopScherm koopscherm = new KoopScherm(spelendeSpeler, kaartenLijst);
+            this.Hide();
+            koopscherm.ShowDialog();
+            this.Show();
+            if (koopscherm.gekocht)
+            {
+                VolgendeRonden();
+            }
         }
         /// <summary>
         /// Functie om de linker en rechter picture box te draaien
         /// </summary>
         /// <param name="_Picturebox1">kaarten van de linker speler</param>
         /// <param name="_Picturebox2">kaarten van de rechter speler</param>
-        private void RotateCardsHorizontaal(List<PictureBox> _Picturebox1, List<PictureBox> _Picturebox2, List<PictureBox> _Picturebox3, List<PictureBox> _Picturebox4)
+        private void RotateCardsHorizontaal(List<PictureBox> _Picturebox1, List<PictureBox> _Picturebox2, List<PictureBox> _Picturebox3, List<PictureBox> _Picturebox4, bool rotateBezienswaardigheden)
         {
             for (int i = 0; i < _Picturebox1.Count; i++)
             {
@@ -471,15 +916,17 @@ namespace Machi_Koro
                 _Picturebox2[i].Image.RotateFlip(RotateFlipType.Rotate270FlipNone);
                 _Picturebox2[i].Refresh();
             }
-            for (int i = 0; i < _Picturebox3.Count; i++)
+            if (rotateBezienswaardigheden)
             {
-                _Picturebox3[i].Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                _Picturebox3[i].Refresh();
-                _Picturebox4[i].Image.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                _Picturebox4[i].Refresh();
+                for (int i = 0; i < _Picturebox3.Count; i++)
+                {
+                    _Picturebox3[i].Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    _Picturebox3[i].Refresh();
+                    _Picturebox4[i].Image.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    _Picturebox4[i].Refresh();
+                }
             }
         }
-
         /// <summary>
         /// Method om de lijsten te vullen met alle horizontale en alle verticale picture boxes
         /// </summary>
