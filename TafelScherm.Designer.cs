@@ -145,7 +145,7 @@
             // bt_dobbel
             // 
             this.bt_dobbel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-            this.bt_dobbel.Location = new System.Drawing.Point(777, 410);
+            this.bt_dobbel.Location = new System.Drawing.Point(777, 435);
             this.bt_dobbel.Name = "bt_dobbel";
             this.bt_dobbel.Size = new System.Drawing.Size(257, 60);
             this.bt_dobbel.TabIndex = 3;
@@ -162,6 +162,7 @@
             this.bt_volgendespeler.TabIndex = 4;
             this.bt_volgendespeler.Text = "Volgende";
             this.bt_volgendespeler.UseVisualStyleBackColor = true;
+            this.bt_volgendespeler.Visible = false;
             this.bt_volgendespeler.Click += new System.EventHandler(this.bt_volgendespeler_Click);
             // 
             // lb_RechtsSpeler
@@ -577,6 +578,7 @@
             this.btn_Kopen.TabIndex = 70;
             this.btn_Kopen.Text = "Kopen";
             this.btn_Kopen.UseVisualStyleBackColor = true;
+            this.btn_Kopen.Visible = false;
             this.btn_Kopen.Click += new System.EventHandler(this.btn_Kopen_Click);
             // 
             // dateTimePicker1
@@ -590,10 +592,12 @@
             // 
             this.lb_DobbelNummer.AutoSize = true;
             this.lb_DobbelNummer.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F);
-            this.lb_DobbelNummer.Location = new System.Drawing.Point(693, 447);
+            this.lb_DobbelNummer.Location = new System.Drawing.Point(889, 426);
             this.lb_DobbelNummer.Name = "lb_DobbelNummer";
-            this.lb_DobbelNummer.Size = new System.Drawing.Size(0, 37);
+            this.lb_DobbelNummer.Size = new System.Drawing.Size(35, 37);
             this.lb_DobbelNummer.TabIndex = 72;
+            this.lb_DobbelNummer.Text = "0";
+            this.lb_DobbelNummer.Visible = false;
             // 
             // pb_OnderSpeler5
             // 

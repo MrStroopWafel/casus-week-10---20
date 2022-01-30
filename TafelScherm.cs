@@ -238,7 +238,9 @@ namespace Machi_Koro
                 spelendeSpeler.Bezienswaardigheden.Add(HaalKaartOp("Treinstation"));
             }
         }
-
+        private void VolgendeRonden()
+        {
+        }
         public void checkGeld()
         {
 
@@ -258,21 +260,20 @@ namespace Machi_Koro
                         break;
                     default:
                         break;
-
-
                 }
             }
             foreach (Speler speler in spelerLijst)
             {
-                foreach (Kaart kaart in speler.Gebouwen)
+                if (speler != spelendeSpeler)
                 {
-                    if (speler != spelendeSpeler)
+                    foreach (Kaart kaart in speler.Gebouwen)
                     {
+
                         //SPELER CHECK HIERBOVEN
                         switch (kaart.Kleur)
                         {
                             case "rood":
-                                CheckGroen(kaart, speler);
+                                CheckRood(kaart, speler);
                                 break;
                             case "blauw":
                                 CheckBlauw(kaart, speler);
@@ -284,6 +285,10 @@ namespace Machi_Koro
                     }
                 }
             }
+            bt_dobbel.Visible = false;
+            btn_Kopen.Visible = true;
+            bt_volgendespeler.Visible = true;
+            lb_DobbelNummer.Visible = true;
         }
 
         private void CheckGroen(Kaart _Kaart, Speler _Speler)
@@ -305,7 +310,6 @@ namespace Machi_Koro
                             break;
                         default:
                             _Speler.Geld += _Kaart.BetalingsWaarde;
-                            lb_BovenGeld.Text = _Speler.Geld.ToString();
                             break;
                     }
                 }
@@ -344,7 +348,7 @@ namespace Machi_Koro
             }
         }
 
-        private void CheckBlauw(Kaart _Kaart, Speler _Speler) 
+        private void CheckBlauw(Kaart _Kaart, Speler _Speler)
         {
             if (_Kaart.Waarde[0] >= rndNummer)
             {
@@ -380,7 +384,8 @@ namespace Machi_Koro
                 {
                     spelendeSpeler.Geld += speler.Geld;
                     speler.Geld -= speler.Geld;
-                } else
+                }
+                else
                 {
                     spelendeSpeler.Geld += 5;
                     speler.Geld -= 5;
@@ -406,23 +411,25 @@ namespace Machi_Koro
                 }
             }
         }
-        /*
-           private void CheckRood(Kaart _Card, Speler _Speler) 
-           {
-               foreach (waarde in _Card.Waarde) 
-               {
-                   if (waarde == rndNummer) 
-                   {
-                       if (spelendeSpeler.Geld > 1)
-                       {
-                           spelendeSpeler.Geld.Remove(_Card.BetalingsWaarde); //<---speler aan de beurt. 
-                           speler.Geld.Add(_Card.Betalingswaarde); //<---speler die rode kaart heeft
-                       }
-                   }
-               }   
-           }
-
-           */
+        private void CheckRood(Kaart _Kaart, Speler _Speler)
+        {
+            foreach (int waarde in _Kaart.Waarde)
+            {
+                if (waarde == rndNummer)
+                {
+                    if (spelendeSpeler.Geld > _Kaart.BetalingsWaarde)
+                    {
+                        spelendeSpeler.Geld -= _Kaart.BetalingsWaarde;  //<---speler aan de beurt. 
+                        _Speler.Geld += _Kaart.BetalingsWaarde; //<---speler die rode kaart heeft
+                    }
+                    else
+                    {
+                        _Speler.Geld += spelendeSpeler.Geld; //<---speler die rode kaart heeft
+                        spelendeSpeler.Geld -= spelendeSpeler.Geld;  //<---speler aan de beurt. 
+                    }
+                }
+            }
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
 
