@@ -8,14 +8,15 @@ namespace Machi_Koro
 {
     internal class Speler
     {
-        public int Geld;
+        public int Geld, SpelerNummer, Positie;
         public List<Kaart> Bezienswaardigheden = new List<Kaart>();
         public List<Kaart> Gebouwen = new List<Kaart>();
 
-        public Speler()
+        public Speler(int _SpelerNummer)
         {
-            Geld = 3;
-
+            Geld = 23;
+            SpelerNummer = _SpelerNummer;
+            Positie = _SpelerNummer;
         }
     }
 }
